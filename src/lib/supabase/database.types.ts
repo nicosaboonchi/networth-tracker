@@ -40,7 +40,12 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      net_worth: {
+        Row: {
+          total: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
