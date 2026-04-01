@@ -20,6 +20,7 @@ export type Database = {
           created_at: string | null
           id: string
           name: string
+          signed_balance: number | null
           type: string
         }
         Insert: {
@@ -27,6 +28,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           name: string
+          signed_balance?: number | null
           type: string
         }
         Update: {
@@ -34,6 +36,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           name?: string
+          signed_balance?: number | null
           type?: string
         }
         Relationships: []
@@ -42,7 +45,14 @@ export type Database = {
     Views: {
       net_worth: {
         Row: {
+          sum: number | null
+        }
+        Relationships: []
+      }
+      type_totals: {
+        Row: {
           total: number | null
+          type: string | null
         }
         Relationships: []
       }
@@ -51,7 +61,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      "account types": "investment" | "credit" | "loan" | "depository" | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -178,6 +188,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      "account types": ["investment", "credit", "loan", "depository", "other"],
+    },
   },
 } as const

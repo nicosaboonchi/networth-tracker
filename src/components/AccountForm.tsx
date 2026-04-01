@@ -22,6 +22,8 @@ export function AccountForm() {
     { value: "checking", label: "Checking" },
     { value: "savings", label: "Savings" },
     { value: "investment", label: "Investment" },
+    { value: "credit", label: "Credit Card" },
+    { value: "loan", label: "Loan" },
   ];
 
   const handleSubmit = (e: React.SubmitEvent) => {

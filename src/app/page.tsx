@@ -6,23 +6,31 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 import { createClient } from "@/lib/supabase/server";
+import { fmtCurrency } from "@/lib/utils";
 
 export default async function Home() {
   const supabase = await createClient();
 
   const { data: accounts, error } = await supabase.from("accounts").select("*");
+  const { data: net_worth, error: netWorthError } = await supabase
+    .from("net_worth")
+    .select("sum")
+    .single();
+
+  const { data: type_totals, error: typeTotalsError } = await supabase
+    .from("type_totals")
+    .select("*");
 
   if (error) {
     throw error;
   }
 
-  const { data: net_worth, error: netWorthError } = await supabase
-    .from("net_worth")
-    .select("total")
-    .single();
-
   if (netWorthError) {
     throw netWorthError;
+  }
+
+  if (typeTotalsError) {
+    throw typeTotalsError;
   }
 
   return (
@@ -30,7 +38,15 @@ export default async function Home() {
       <AccountForm />
       <div>
         <h2 className="text-lg font-semibold">Net Worth</h2>
-        {net_worth.total}
+        {fmtCurrency(net_worth.sum ?? 0)}
+      </div>
+      <div>
+        <h2 className="text-lg font-semibold">Totals by Type</h2>
+        {type_totals.map((typeTotal) => (
+          <div key={typeTotal.type}>
+            {typeTotal.type}: {fmtCurrency(typeTotal.total ?? 0)}
+          </div>
+        ))}
       </div>
       {accounts.map((account) => (
         <Item key={account.id} variant="muted">
@@ -41,7 +57,7 @@ export default async function Home() {
             </ItemDescription>
           </ItemContent>
           <ItemContent className="items-end">
-            <ItemTitle>${account.balance.toFixed(2)}</ItemTitle>
+            <ItemTitle>{fmtCurrency(account.balance)}</ItemTitle>
             <ItemDescription>
               Created at:{" "}
               {account.created_at &&
