@@ -19,25 +19,34 @@ export type Database = {
           balance: number
           created_at: string | null
           id: string
+          last_synced_at: string | null
           name: string
-          signed_balance: number | null
+          signed_balance: number
           type: string
+          updated_at: string | null
+          user_id: string
         }
         Insert: {
           balance: number
           created_at?: string | null
           id?: string
+          last_synced_at?: string | null
           name: string
-          signed_balance?: number | null
+          signed_balance: number
           type: string
+          updated_at?: string | null
+          user_id?: string
         }
         Update: {
           balance?: number
           created_at?: string | null
           id?: string
+          last_synced_at?: string | null
           name?: string
-          signed_balance?: number | null
+          signed_balance?: number
           type?: string
+          updated_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }

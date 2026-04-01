@@ -55,6 +55,15 @@ export async function signInWithEmail(
   redirect("/");
 }
 
+export async function signOut() {
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error("Error signing out:", error);
+  }
+  redirect("/login");
+}
+
 type Account = Database["public"]["Tables"]["accounts"]["Insert"];
 
 export async function AddAccount({ name, type, balance }: Account) {

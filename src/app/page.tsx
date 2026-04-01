@@ -1,4 +1,5 @@
 import { AccountForm } from "@/components/AccountForm";
+import { Header } from "@/components/Header";
 import {
   Item,
   ItemContent,
@@ -35,6 +36,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col w-full max-w-md mx-auto gap-4 p-4">
+      <Header />
       <AccountForm />
       <div>
         <h2 className="text-lg font-semibold">Net Worth</h2>
