@@ -8,7 +8,7 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 import { createClient } from "@/lib/supabase/server";
-import { fmtCurrency } from "@/lib/utils";
+import { fmtCurrency, getLastActivityDate, timeAgo } from "@/lib/utils";
 import { UpdateAccountDialog } from "@/components/UpdateAccountDialog";
 
 export default async function Home() {
@@ -67,9 +67,7 @@ export default async function Home() {
           <ItemContent className="items-end">
             <ItemTitle>{fmtCurrency(account.balance)}</ItemTitle>
             <ItemDescription>
-              Created at:{" "}
-              {account.created_at &&
-                new Date(account.created_at).toLocaleDateString()}
+              {timeAgo(getLastActivityDate(account))}
             </ItemDescription>
           </ItemContent>
           <ItemActions>

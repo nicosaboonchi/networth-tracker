@@ -66,7 +66,12 @@ export async function signOut() {
 
 // -- Account Actions -
 
-type Account = Database["public"]["Tables"]["accounts"]["Insert"];
+type Account = Required<
+  Pick<
+    Database["public"]["Tables"]["accounts"]["Insert"],
+    "name" | "type" | "balance"
+  >
+>;
 
 export async function AddAccount({ name, type, balance }: Account) {
   const supabase = await createClient();
