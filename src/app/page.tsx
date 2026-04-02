@@ -2,17 +2,23 @@ import { AccountForm } from "@/components/AccountForm";
 import { Header } from "@/components/Header";
 import {
   Item,
+  ItemActions,
   ItemContent,
   ItemDescription,
   ItemTitle,
 } from "@/components/ui/item";
 import { createClient } from "@/lib/supabase/server";
 import { fmtCurrency } from "@/lib/utils";
+import { UpdateAccountDialog } from "@/components/UpdateAccountDialog";
 
 export default async function Home() {
   const supabase = await createClient();
 
-  const { data: accounts, error } = await supabase.from("accounts").select("*");
+  // wrap in a promise.all to fetch in parallel
+  const { data: accounts, error } = await supabase
+    .from("accounts")
+    .select("*")
+    .order("created_at", { ascending: true });
   const { data: net_worth, error: netWorthError } = await supabase
     .from("net_worth")
     .select("sum")
@@ -66,6 +72,9 @@ export default async function Home() {
                 new Date(account.created_at).toLocaleDateString()}
             </ItemDescription>
           </ItemContent>
+          <ItemActions>
+            <UpdateAccountDialog account={account} />
+          </ItemActions>
         </Item>
       ))}
     </div>

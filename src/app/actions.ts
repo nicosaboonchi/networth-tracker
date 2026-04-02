@@ -64,6 +64,8 @@ export async function signOut() {
   redirect("/login");
 }
 
+// -- Account Actions -
+
 type Account = Database["public"]["Tables"]["accounts"]["Insert"];
 
 export async function AddAccount({ name, type, balance }: Account) {
@@ -76,6 +78,41 @@ export async function AddAccount({ name, type, balance }: Account) {
     const { error } = await supabase
       .from("accounts")
       .insert({ name, type, balance, signed_balance });
+
+    if (error) {
+      throw error;
+    }
+
+    revalidatePath("/");
+  } catch (error) {
+    console.error("Unexpected error:", error);
+  }
+}
+
+type UpdateAccountParams = Required<
+  Pick<
+    Database["public"]["Tables"]["accounts"]["Update"],
+    "id" | "balance" | "type"
+  >
+>;
+
+export async function UpdateAccount({
+  id,
+  balance,
+  type,
+}: UpdateAccountParams) {
+  const supabase = await createClient();
+
+  const signed_balance =
+    type === "credit" || type === "loan" ? -balance : balance;
+
+  const updated_at = new Date().toISOString();
+
+  try {
+    const { error } = await supabase
+      .from("accounts")
+      .update({ balance, signed_balance, updated_at })
+      .eq("id", id);
 
     if (error) {
       throw error;

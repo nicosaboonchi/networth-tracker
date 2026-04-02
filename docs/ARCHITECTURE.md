@@ -24,3 +24,16 @@ A personal net worth tracker that aggregates balances across financial instituti
 - [ ] Supabase Auth + RLS policys
 - [ ] Edit and delete accounts
 - [ ] Balance snapshots capture
+
+### Updating a balance
+
+What we need: 
+- the id of the account to target the change
+- the new value to change the balance to
+-  the updated timestamp.
+- a user interface to edit the account
+
+Dialog component takes in the account id, the name, and balance, input field with current balance to change to updated balance. Save button calls update action on the server
+
+
+
