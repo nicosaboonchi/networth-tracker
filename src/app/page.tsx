@@ -10,23 +10,25 @@ import {
 import { createClient } from "@/lib/supabase/server";
 import { fmtCurrency, getLastActivityDate, timeAgo } from "@/lib/utils";
 import { UpdateAccountDialog } from "@/components/UpdateAccountDialog";
+import { Delete } from "lucide-react";
+import { DeleteAccountDialog } from "@/components/DeleteAccountDialog";
 
 export default async function Home() {
   const supabase = await createClient();
 
   // wrap in a promise.all to fetch in parallel
-  const { data: accounts, error } = await supabase
-    .from("accounts")
-    .select("*")
-    .order("created_at", { ascending: true });
-  const { data: net_worth, error: netWorthError } = await supabase
-    .from("net_worth")
-    .select("sum")
-    .single();
-
-  const { data: type_totals, error: typeTotalsError } = await supabase
-    .from("type_totals")
-    .select("*");
+  const [
+    { data: accounts, error },
+    { data: net_worth, error: netWorthError },
+    { data: type_totals, error: typeTotalsError },
+  ] = await Promise.all([
+    supabase
+      .from("accounts")
+      .select("*")
+      .order("created_at", { ascending: true }),
+    supabase.from("net_worth").select("sum").single(),
+    supabase.from("type_totals").select("*"),
+  ]);
 
   if (error) {
     throw error;
@@ -72,6 +74,7 @@ export default async function Home() {
           </ItemContent>
           <ItemActions>
             <UpdateAccountDialog account={account} />
+            <DeleteAccountDialog account={account} />
           </ItemActions>
         </Item>
       ))}

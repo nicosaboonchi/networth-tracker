@@ -4,16 +4,22 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 import { Database } from "@/lib/supabase/database.types";
 import React from "react";
 import { UpdateAccount } from "@/app/actions";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+} from "./ui/input-group";
 
 /**
  * 1. Pass in the individual account data as props to the UpdateAccountDialog component
@@ -51,15 +57,24 @@ export function UpdateAccountDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Update Account</DialogTitle>
+          <DialogDescription>
+            Update the balance for this account. The net worth will be
+            recalculated automatically.
+          </DialogDescription>
         </DialogHeader>
         <form id="update-account-form" onSubmit={handleSubmit}>
-          <Input
-            id="balance"
-            placeholder="Enter new balance"
-            type="number"
-            value={inputBalance}
-            onChange={(e) => setInputBalance(Number(e.target.value))}
-          />
+          <InputGroup>
+            <InputGroupAddon>
+              <InputGroupText>$</InputGroupText>
+            </InputGroupAddon>
+            <InputGroupInput
+              id="balance"
+              placeholder="Enter new balance"
+              type="number"
+              value={inputBalance}
+              onChange={(e) => setInputBalance(Number(e.target.value))}
+            />
+          </InputGroup>
         </form>
         <DialogFooter>
           <DialogClose asChild>

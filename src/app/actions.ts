@@ -128,3 +128,19 @@ export async function UpdateAccount({
     console.error("Unexpected error:", error);
   }
 }
+
+export async function DeleteAccount(id: string) {
+  const supabase = await createClient();
+
+  try {
+    const { error } = await supabase.from("accounts").delete().eq("id", id);
+
+    if (error) {
+      throw error;
+    }
+
+    revalidatePath("/");
+  } catch (error) {
+    console.error("Unexpected error:", error);
+  }
+}

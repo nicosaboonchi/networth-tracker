@@ -35,5 +35,22 @@ What we need:
 
 Dialog component takes in the account id, the name, and balance, input field with current balance to change to updated balance. Save button calls update action on the server
 
+### Snapshots
+
+Each day a record of each accounts balance is captured only once. We can store the `signed_balance` and `display_balance` with a snapshot_date and account_id as the FK. These will be used to aggregate net worth into daily totals over time.
+
+What we Need: 
+ - snapshots table to relate the snapshot to the account
+ - the new balance to update and its sign depending on the type of account
+ - a snapshot trigger, we will reuse the update/edit button on each account
+
+ The flow:
+ 1. User clicks edit on an account
+ 2. New balance is entered for the account
+ 3. Update the new `balance` and `updated_at` in the `accounts` table
+ 4. Upsert the new `balance` and date into the `balance_snapshots` table
+ 5. If a balance for today already exists we update it (contrained on todays date and account_id)
+ 6. If balance doesnt exist we insert new snapshot
+ 7. a view groups by date and sums the total for each date
 
 
