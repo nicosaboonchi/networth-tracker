@@ -50,6 +50,41 @@ export type Database = {
         }
         Relationships: []
       }
+      balance_snapshots: {
+        Row: {
+          account_id: string
+          created_at: string
+          display_balance: number
+          id: string
+          signed_balance: number
+          snapshot_date: string
+        }
+        Insert: {
+          account_id: string
+          created_at?: string
+          display_balance: number
+          id?: string
+          signed_balance: number
+          snapshot_date: string
+        }
+        Update: {
+          account_id?: string
+          created_at?: string
+          display_balance?: number
+          id?: string
+          signed_balance?: number
+          snapshot_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "balance_snapshots_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       net_worth: {

@@ -80,12 +80,27 @@ export async function AddAccount({ name, type, balance }: Account) {
     type === "credit" || type === "loan" ? -balance : balance;
 
   try {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("accounts")
-      .insert({ name, type, balance, signed_balance });
+      .insert({ name, type, balance, signed_balance })
+      .select("id")
+      .single();
 
     if (error) {
       throw error;
+    }
+
+    const { error: snapshotError } = await supabase
+      .from("balance_snapshots")
+      .insert({
+        account_id: data.id,
+        display_balance: balance,
+        signed_balance,
+        snapshot_date: new Date().toISOString().split("T")[0],
+      });
+
+    if (snapshotError) {
+      throw snapshotError;
     }
 
     revalidatePath("/");
