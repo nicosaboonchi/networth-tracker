@@ -138,6 +138,22 @@ export async function UpdateAccount({
       throw error;
     }
 
+    const { error: snapshotError } = await supabase
+      .from("balance_snapshots")
+      .upsert(
+        {
+          account_id: id,
+          display_balance: balance,
+          signed_balance,
+          snapshot_date: updated_at.split("T")[0],
+        },
+        { onConflict: "account_id, snapshot_date" },
+      );
+
+    if (snapshotError) {
+      throw snapshotError;
+    }
+
     revalidatePath("/");
   } catch (error) {
     console.error("Unexpected error:", error);
