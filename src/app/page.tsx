@@ -10,7 +10,6 @@ import {
 import { createClient } from "@/lib/supabase/server";
 import { fmtCurrency, getLastActivityDate, timeAgo } from "@/lib/utils";
 import { UpdateAccountDialog } from "@/components/UpdateAccountDialog";
-import { Delete } from "lucide-react";
 import { DeleteAccountDialog } from "@/components/DeleteAccountDialog";
 import { NetworthChart } from "@/components/NetworthChart";
 
@@ -48,10 +47,6 @@ export default async function Home() {
       <Header />
       <AccountForm />
       <NetworthChart networth={fmtCurrency(net_worth.sum ?? 0)} />
-      <div>
-        <h2 className="text-lg font-semibold">Net Worth</h2>
-        {fmtCurrency(net_worth.sum ?? 0)}
-      </div>
       <div>
         <h2 className="text-lg font-semibold">Totals by Type</h2>
         {type_totals.map((typeTotal) => (

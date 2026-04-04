@@ -23,6 +23,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const netWorthHistory = [
+  { date: "2025-11-23", NetWorth: 15000 },
   { date: "2026-01-01", NetWorth: 42000 },
   { date: "2026-01-15", NetWorth: 43500 },
   { date: "2026-02-01", NetWorth: 41800 },
@@ -43,7 +44,7 @@ export function NetworthChart({ networth }: { networth: string }) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+        <ChartContainer config={chartConfig} className="min-h-50 w-full">
           <AreaChart
             accessibilityLayer
             data={netWorthHistory}
