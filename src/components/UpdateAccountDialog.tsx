@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
 import { Database } from "@/lib/supabase/database.types";
-import React from "react";
+import { useState } from "react";
 import { UpdateAccount } from "@/app/actions";
 import {
   InputGroup,
@@ -20,6 +20,17 @@ import {
   InputGroupInput,
   InputGroupText,
 } from "./ui/input-group";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTrigger,
+} from "./ui/drawer";
+import { Field, FieldGroup } from "./ui/field";
 
 /**
  * 1. Pass in the individual account data as props to the UpdateAccountDialog component
@@ -32,10 +43,77 @@ interface UpdateAccountDialogProps {
   account: Database["public"]["Tables"]["accounts"]["Row"];
 }
 
+// TODO: fix drawer spacing
+
 export function UpdateAccountDialog({
   account: { balance, id, type },
 }: UpdateAccountDialogProps) {
-  const [inputBalance, setInputBalance] = React.useState(balance);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  if (isDesktop) {
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Edit</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Update Account</DialogTitle>
+            <DialogDescription>
+              Update the balance for this account. The net worth will be
+              recalculated automatically.
+            </DialogDescription>
+          </DialogHeader>
+          <UpdateForm id={id} balance={balance} type={type} />
+          <DialogFooter>
+            <Button type="submit" form="update-account-form">
+              Save
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button>Edit</Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DialogTitle>Update Account</DialogTitle>
+          <DrawerDescription>
+            Update the balance for this account. The net worth will be
+            recalculated automatically.
+          </DrawerDescription>
+        </DrawerHeader>
+        <UpdateForm id={id} balance={balance} type={type} className="px-4" />
+        <DrawerFooter>
+          <Button type="submit" form="update-account-form">
+            Save
+          </Button>
+          <DrawerClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
+}
+
+function UpdateForm({
+  id,
+  balance,
+  type,
+  className,
+}: {
+  id: string;
+  balance: number;
+  type: string;
+  className?: string;
+}) {
+  const [inputBalance, setInputBalance] = useState(balance);
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     // prevent default form submission behavior
@@ -48,43 +126,24 @@ export function UpdateAccountDialog({
       type,
     });
   };
-
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>Edit</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Update Account</DialogTitle>
-          <DialogDescription>
-            Update the balance for this account. The net worth will be
-            recalculated automatically.
-          </DialogDescription>
-        </DialogHeader>
-        <form id="update-account-form" onSubmit={handleSubmit}>
-          <InputGroup>
-            <InputGroupAddon>
-              <InputGroupText>$</InputGroupText>
-            </InputGroupAddon>
-            <InputGroupInput
-              id="balance"
-              placeholder="Enter new balance"
-              type="number"
-              value={inputBalance}
-              onChange={(e) => setInputBalance(Number(e.target.value))}
-            />
-          </InputGroup>
-        </form>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-          <Button type="submit" form="update-account-form">
-            Save
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <form
+      id="update-account-form"
+      onSubmit={handleSubmit}
+      className={className}
+    >
+      <InputGroup>
+        <InputGroupAddon>
+          <InputGroupText>$</InputGroupText>
+        </InputGroupAddon>
+        <InputGroupInput
+          id="balance"
+          placeholder="Enter new balance"
+          type="number"
+          value={inputBalance}
+          onChange={(e) => setInputBalance(Number(e.target.value))}
+        />
+      </InputGroup>
+    </form>
   );
 }
