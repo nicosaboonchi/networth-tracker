@@ -22,19 +22,16 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const netWorthHistory = [
-  { date: "2025-11-23", NetWorth: 15000 },
-  { date: "2026-01-01", NetWorth: 42000 },
-  { date: "2026-01-15", NetWorth: 43500 },
-  { date: "2026-02-01", NetWorth: 41800 },
-  { date: "2026-02-15", NetWorth: 44200 },
-  { date: "2026-03-01", NetWorth: 46000 },
-  { date: "2026-03-15", NetWorth: 45100 },
-  { date: "2026-04-01", NetWorth: 48300 },
-  { date: "2026-04-04", NetWorth: 49100 },
-];
-
-export function NetworthChart({ networth }: { networth: string }) {
+export function NetworthChart({
+  data,
+  networth,
+}: {
+  data: {
+    date: string;
+    NetWorth: number;
+  }[];
+  networth: string;
+}) {
   return (
     <Card>
       <CardHeader>
@@ -47,12 +44,12 @@ export function NetworthChart({ networth }: { networth: string }) {
         <ChartContainer config={chartConfig} className="min-h-50 w-full">
           <AreaChart
             accessibilityLayer
-            data={netWorthHistory}
-            margin={{ right: 12 }}
+            data={data}
+            margin={{ top: 16, right: 12, left: 8, bottom: 0 }}
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="date"
+              dataKey="day"
               tickLine={false}
               tickMargin={8}
               axisLine={false}
@@ -76,7 +73,7 @@ export function NetworthChart({ networth }: { networth: string }) {
               content={<ChartTooltipContent indicator="line" />}
             />
             <Area
-              dataKey="NetWorth"
+              dataKey="net_worth"
               fill="var(--color-networth)"
               stroke="var(--color-networth)"
               fillOpacity={0.4}

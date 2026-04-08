@@ -102,7 +102,13 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      get_net_worth_series: {
+        Args: { end_date: string; start_date: string }
+        Returns: {
+          day: string
+          net_worth: number
+        }[]
+      }
     }
     Enums: {
       "account types": "investment" | "credit" | "loan" | "depository" | "other"
