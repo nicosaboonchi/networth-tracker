@@ -30,7 +30,7 @@ export default async function Home() {
     supabase.from("net_worth").select("sum").single(),
     supabase.from("type_totals").select("*"),
     supabase.rpc("get_net_worth_series", {
-      end_date: new Date("2026-04-24").toISOString().split("T")[0],
+      end_date: new Date().toISOString().split("T")[0],
       start_date: new Date("2026-04-08").toISOString().split("T")[0],
     }),
   ]);

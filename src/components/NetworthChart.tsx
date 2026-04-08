@@ -27,8 +27,8 @@ export function NetworthChart({
   networth,
 }: {
   data: {
-    date: string;
-    NetWorth: number;
+    day: string;
+    net_worth: number;
   }[];
   networth: string;
 }) {
@@ -56,6 +56,7 @@ export function NetworthChart({
               tickFormatter={(value) =>
                 new Date(value).toLocaleDateString(undefined, {
                   month: "short",
+                  day: "numeric",
                 })
               }
             />
