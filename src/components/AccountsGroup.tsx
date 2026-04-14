@@ -7,11 +7,10 @@ import { AccountRow } from "./AccountRow";
 import { ChevronDown } from "lucide-react";
 import { ItemGroup } from "./ui/item";
 import { Database } from "@/lib/supabase/database.types";
-import { getLastActivityDate, timeAgo } from "@/lib/utils";
 
 interface AccountsGroupProps {
   type: string;
-  total: number;
+  total: string;
   count: number;
   accounts: Database["public"]["Tables"]["accounts"]["Row"][];
 }
@@ -32,7 +31,7 @@ export function AccountsGroup({
             {count} accounts
           </span>
         </div>
-        <span className="font-medium">${total.toFixed(2)}</span>
+        <span className="font-medium">{total}</span>
       </CollapsibleTrigger>
       <CollapsibleContent>
         <ItemGroup className="gap-0">

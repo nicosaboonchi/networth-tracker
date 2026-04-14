@@ -2,6 +2,7 @@ import { AccountForm } from "@/components/AccountForm";
 import { AccountsGroup } from "@/components/AccountsGroup";
 import { NetworthChart } from "@/components/NetworthChart";
 import { createClient } from "@/lib/supabase/server";
+import { fmtCurrency } from "@/lib/utils";
 
 export default async function AccountsPage() {
   const supabase = await createClient();
@@ -35,31 +36,31 @@ export default async function AccountsPage() {
 
   return (
     <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-[2fr_1fr] md:p-6">
-      <div className="col-span-1 md:col-span-2">
+      <div className="col-span-1 md:col-span-2 h-100">
         <NetworthChart />
       </div>
       <div className="flex flex-col gap-4">
         <AccountsGroup
           type="Checking"
-          total={2000.0}
+          total={fmtCurrency(2000.0)}
           count={checkingAccounts.length}
           accounts={checkingAccounts}
         />
         <AccountsGroup
           type="Savings"
-          total={5000.0}
+          total={fmtCurrency(5000.0)}
           count={savingsAccounts.length}
           accounts={savingsAccounts}
         />
         <AccountsGroup
           type="Investments"
-          total={15000.0}
+          total={fmtCurrency(15000.0)}
           count={investmentAccounts.length}
           accounts={investmentAccounts}
         />
         <AccountsGroup
           type="Credit Cards"
-          total={15000.0}
+          total={fmtCurrency(15000.0)}
           count={creditAccounts.length}
           accounts={creditAccounts}
         />

@@ -7,10 +7,7 @@ import {
   ItemMedia,
   ItemTitle,
 } from "./ui/item";
-import { ChartArea, Delete } from "lucide-react";
-import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { UpdateAccount } from "@/app/actions";
 import { UpdateAccountDialog } from "./UpdateAccountDialog";
 import { DeleteAccountDialog } from "./DeleteAccountDialog";
 import { Database } from "@/lib/supabase/database.types";
