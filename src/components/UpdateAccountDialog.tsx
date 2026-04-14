@@ -30,6 +30,7 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from "./ui/drawer";
+import { MoreHorizontalIcon } from "lucide-react";
 
 /**
  * 1. Pass in the individual account data as props to the UpdateAccountDialog component
@@ -53,7 +54,7 @@ export function UpdateAccountDialog({
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button>Edit</Button>
+          <Button variant="ghost">Edit</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>

@@ -19,6 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+import { Card, CardContent } from "./ui/card";
 
 export function AccountForm() {
   const [name, setName] = useState("");
@@ -42,16 +43,8 @@ export function AccountForm() {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="default" className="bg-orange-400 text-white">
-          Add Account
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add Account</DialogTitle>
-        </DialogHeader>
+    <Card className="sticky top-0">
+      <CardContent>
         <form className="w-full" onSubmit={handleSubmit}>
           <FieldSet>
             <Field>
@@ -93,7 +86,7 @@ export function AccountForm() {
             </Field>
           </FieldSet>
         </form>
-      </DialogContent>
-    </Dialog>
+      </CardContent>
+    </Card>
   );
 }
