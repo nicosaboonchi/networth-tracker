@@ -1,3 +1,4 @@
+import { AccountsGroup } from "@/components/AccountsGroup";
 import { NetworthChart } from "@/components/NetworthChart";
 
 export default function AccountsPage() {
@@ -6,7 +7,7 @@ export default function AccountsPage() {
       <div className="col-span-2 h-100">
         <NetworthChart />
       </div>
-      <div>content</div>
+      <AccountsGroup />
       <div>content</div>
     </div>
   );
