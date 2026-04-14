@@ -34,8 +34,8 @@ export default async function AccountsPage() {
   console.log(checkingAccounts);
 
   return (
-    <div className="grid grid-cols-[2fr_1fr] gap-4 p-6">
-      <div className="col-span-2 h-100">
+    <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-[2fr_1fr] md:p-6">
+      <div className="col-span-1 md:col-span-2">
         <NetworthChart />
       </div>
       <div className="flex flex-col gap-4">
