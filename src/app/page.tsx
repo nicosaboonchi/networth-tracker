@@ -55,9 +55,8 @@ export default async function Home() {
   const accountsByType = Object.groupBy(accounts, (account) => account.type);
 
   return (
-    <div className="flex flex-col w-full max-w-md mx-auto gap-4 p-4">
+    <div className="flex flex-col w-full gap-4 p-4">
       <Header />
-      <AccountForm />
       <NetworthChart
         data={networth_history}
         networth={fmtCurrency(net_worth.sum ?? 0)}

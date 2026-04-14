@@ -12,7 +12,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 
 export function AccountForm() {
   const [name, setName] = useState("");
@@ -36,11 +42,16 @@ export function AccountForm() {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Add Account</CardTitle>
-      </CardHeader>
-      <CardContent>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="default" className="bg-orange-400 text-white">
+          Add Account
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add Account</DialogTitle>
+        </DialogHeader>
         <form className="w-full" onSubmit={handleSubmit}>
           <FieldSet>
             <Field>
@@ -82,7 +93,7 @@ export function AccountForm() {
             </Field>
           </FieldSet>
         </form>
-      </CardContent>
-    </Card>
+      </DialogContent>
+    </Dialog>
   );
 }
