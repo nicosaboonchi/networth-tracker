@@ -139,6 +139,7 @@ function UpdateForm({
           placeholder="Enter new balance"
           type="number"
           value={inputBalance}
+          step={0.01}
           onChange={(e) => setInputBalance(Number(e.target.value))}
         />
       </InputGroup>

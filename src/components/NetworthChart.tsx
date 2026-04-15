@@ -22,47 +22,33 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const sampleNetworthData = (): { day: string; net_worth: number }[] => {
-  const today = new Date();
-  return Array.from({ length: 7 }, (_, index) => {
-    const date = new Date(today);
-    date.setDate(today.getDate() - (6 - index));
-    return {
-      day: date.toISOString().split("T")[0],
-      net_worth: 12699 + index * 750,
-    };
-  });
-};
-
 export function NetworthChart({
   data,
   networth,
-  className,
 }: {
   data?: {
     day: string;
     net_worth: number;
   }[];
-  networth?: string;
-  className?: string;
+  networth?: number | null;
 }) {
-  const chartData = data && data.length > 0 ? data : sampleNetworthData();
-  const displayNetworth =
-    networth ?? fmtCurrency(chartData[chartData.length - 1].net_worth);
-
+  const displayNetworth = networth ?? 0;
+  const hasData = networth !== null && networth !== undefined;
   return (
     <Card className="h-full">
       <CardHeader>
         <CardDescription>Net Worth</CardDescription>
-        <CardTitle className="text-2xl font-semibold tabular-nums">
-          {displayNetworth}
+        <CardTitle
+          className={`text-2xl font-semibold tabular-nums ${!hasData ? "text-muted-foreground" : ""}`}
+        >
+          {hasData ? fmtCurrency(displayNetworth) : "No data"}
         </CardTitle>
       </CardHeader>
       <CardContent className="min-h-0 flex-1">
         <ChartContainer config={chartConfig} className="h-full w-full">
           <AreaChart
             accessibilityLayer
-            data={chartData}
+            data={data}
             margin={{ top: 16, right: 12, left: 8, bottom: 0 }}
           >
             <CartesianGrid vertical={false} />
@@ -87,7 +73,7 @@ export function NetworthChart({
               tickCount={7}
             />
             <ChartTooltip
-              cursor={false}
+              cursor={true}
               content={<ChartTooltipContent indicator="line" />}
             />
             <Area

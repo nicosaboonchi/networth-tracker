@@ -12,58 +12,62 @@ export default async function AccountsPage() {
     .select("*")
     .order("created_at", { ascending: true });
 
+  const { data: networthHistory, error: networthError } = await supabase.rpc(
+    "get_net_worth_series",
+    {
+      end_date: new Date().toISOString().split("T")[0],
+      start_date: new Date("2026-04-09").toISOString().split("T")[0],
+    },
+  );
+
+  const { data: networth_total, error: networthTotalError } = await supabase
+    .from("net_worth")
+    .select("sum")
+    .single();
+
+  const { data: grouptotals, error: groupTotalsError } = await supabase
+    .from("grouptotals")
+    .select("*");
+
+  if (networthTotalError) {
+    throw networthTotalError;
+  }
+
+  if (networthError) {
+    throw networthError;
+  }
+
+  if (groupTotalsError) {
+    throw groupTotalsError;
+  }
+
   if (error) {
     throw error;
   }
 
-  const checkingAccounts = accounts.filter(
-    (account) => account.type === "checking",
-  );
+  const grouped = Object.groupBy(accounts, (account) => account.type);
 
-  const savingsAccounts = accounts.filter(
-    (account) => account.type === "savings",
-  );
-
-  const investmentAccounts = accounts.filter(
-    (account) => account.type === "investment",
-  );
-
-  const creditAccounts = accounts.filter(
-    (account) => account.type === "credit",
-  );
-
-  console.log(checkingAccounts);
+  const accountGroups = Object.entries(grouped).map(([type, accts = []]) => ({
+    type,
+    total: accts.reduce((sum, account) => sum + account.balance, 0),
+    accounts: accts,
+  }));
 
   return (
     <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-[2fr_1fr] md:p-6">
-      <div className="col-span-1 md:col-span-2 h-100">
-        <NetworthChart />
+      <div className="col-span-1 md:col-span-2 max-h-100">
+        <NetworthChart data={networthHistory} networth={networth_total?.sum} />
       </div>
       <div className="flex flex-col gap-4">
-        <AccountsGroup
-          type="Checking"
-          total={fmtCurrency(2000.0)}
-          count={checkingAccounts.length}
-          accounts={checkingAccounts}
-        />
-        <AccountsGroup
-          type="Savings"
-          total={fmtCurrency(5000.0)}
-          count={savingsAccounts.length}
-          accounts={savingsAccounts}
-        />
-        <AccountsGroup
-          type="Investments"
-          total={fmtCurrency(15000.0)}
-          count={investmentAccounts.length}
-          accounts={investmentAccounts}
-        />
-        <AccountsGroup
-          type="Credit Cards"
-          total={fmtCurrency(15000.0)}
-          count={creditAccounts.length}
-          accounts={creditAccounts}
-        />
+        {accountGroups.map((group) => (
+          <AccountsGroup
+            key={group.type}
+            type={group.type.charAt(0).toUpperCase() + group.type.slice(1)}
+            count={group.accounts.length}
+            total={fmtCurrency(group.total)}
+            accounts={group.accounts}
+          />
+        ))}
       </div>
       <div>
         <AccountForm />

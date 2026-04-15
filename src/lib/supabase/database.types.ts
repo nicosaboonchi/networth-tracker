@@ -87,6 +87,13 @@ export type Database = {
       }
     }
     Views: {
+      grouptotals: {
+        Row: {
+          sum: number | null
+          type: string | null
+        }
+        Relationships: []
+      }
       net_worth: {
         Row: {
           sum: number | null
