@@ -26,12 +26,12 @@ export function AccountsGroup({
       <CollapsibleTrigger className="flex w-full items-center justify-between px-3 py-2.5 bg-muted/50 hover:bg-muted">
         <div className="flex items-center gap-2">
           <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform in-data-[state=open]:rotate-180" />
-          <span className="font-medium">{type}</span>
-          <span className="text-muted-foreground text-sm">
+          <span className="font-medium text-lg">{type}</span>
+          <span className="text-muted-foreground text-base">
             {count} accounts
           </span>
         </div>
-        <span className="font-medium">{total}</span>
+        <span className="font-medium text-lg">{total}</span>
       </CollapsibleTrigger>
       <CollapsibleContent>
         <ItemGroup className="gap-0">

@@ -28,11 +28,11 @@ export function AccountRow({ account }: AccountRowProps) {
         </Avatar>
       </ItemMedia>
       <ItemContent>
-        <ItemTitle>{name}</ItemTitle>
-        <ItemDescription>{type}</ItemDescription>
+        <ItemTitle className="text-base">{name}</ItemTitle>
+        <ItemDescription className="text-sm">{type}</ItemDescription>
       </ItemContent>
       <ItemContent className="items-end">
-        <ItemTitle>${balance.toFixed(2)}</ItemTitle>
+        <ItemTitle className="text-lg">${balance.toFixed(2)}</ItemTitle>
         <ItemDescription>
           {timeAgo(getLastActivityDate(account))}
         </ItemDescription>
