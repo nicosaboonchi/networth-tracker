@@ -1,6 +1,7 @@
 import { AccountForm } from "@/components/AccountForm";
 import { AccountsGroup } from "@/components/AccountsGroup";
 import { NetworthChart } from "@/components/NetworthChart";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { createClient } from "@/lib/supabase/server";
 import { fmtCurrency } from "@/lib/utils";
 
@@ -54,7 +55,7 @@ export default async function AccountsPage() {
   }));
 
   return (
-    <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-[2fr_1fr] md:p-6">
+    <>
       <div className="col-span-1 md:col-span-2 max-h-100">
         <NetworthChart data={networthHistory} networth={networth_total?.sum} />
       </div>
@@ -72,6 +73,6 @@ export default async function AccountsPage() {
       <div>
         <AccountForm />
       </div>
-    </div>
+    </>
   );
 }

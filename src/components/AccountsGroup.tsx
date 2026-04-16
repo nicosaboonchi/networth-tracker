@@ -33,7 +33,7 @@ export function AccountsGroup({
         </div>
         <span className="font-medium text-lg">{total}</span>
       </CollapsibleTrigger>
-      <CollapsibleContent>
+      <CollapsibleContent className="overflow-hidden data-[state=open]:animate-[collapsible-down_200ms_ease-out] data-[state=closed]:animate-[collapsible-up_200ms_ease-out]">
         <ItemGroup className="gap-0">
           {accounts.map((account) => (
             <AccountRow key={account.id} account={account} />
